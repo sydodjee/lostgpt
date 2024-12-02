@@ -3,7 +3,7 @@ from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes
 
 # Replace with your OpenAI API key
-OPENAI_API_KEY = "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"  # Add your OpenAI API key here
+OPENAI_API_KEY = "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"  # Add your OpenAI API key here
 
 # Replace with your Telegram bot token
 TELEGRAM_BOT_TOKEN = "7649317053:AAEuahOjsqpu2aqQGs5qlJCsKvL35qU-leo"  # Add your Telegram bot token here
