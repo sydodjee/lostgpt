@@ -1,5 +1,5 @@
 import os
-import threading
+import asyncio
 from flask import Flask
 from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes
@@ -42,16 +42,30 @@ async def gpt_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
         await update.message.reply_text(f"An error occurred: {e}")
 
 # Set up Telegram bot
-def start_telegram_bot():
+async def start_telegram_bot():
     application = Application.builder().token(TELEGRAM_BOT_TOKEN).build()
     application.add_handler(CommandHandler("gpt", gpt_command))
-    application.run_polling()
+    await application.run_polling()
+
+# Main function to start both Flask and Telegram bot using asyncio
+def main():
+    loop = asyncio.get_event_loop()
+
+    # Start Telegram bot in the event loop
+    bot_task = loop.create_task(start_telegram_bot())
+
+    # Start Flask app in a separate thread
+    from threading import Thread
+
+    def run_flask():
+        port = int(os.environ.get("PORT", 5000))
+        app.run(host="0.0.0.0", port=port)
+
+    flask_thread = Thread(target=run_flask)
+    flask_thread.start()
+
+    # Run the event loop to handle both Flask and Telegram bot
+    loop.run_until_complete(bot_task)
 
 if __name__ == "__main__":
-    # Start Telegram bot in a separate thread
-    bot_thread = threading.Thread(target=start_telegram_bot, daemon=True)
-    bot_thread.start()
-
-    # Start Flask app for port binding
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+    main()
