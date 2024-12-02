@@ -1,6 +1,10 @@
 import openai
 from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes
+import http.server
+import socketserver
+import threading
+import asyncio
 
 # Replace with your OpenAI API key
 OPENAI_API_KEY = "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"  # Add your OpenAI API key here
@@ -32,6 +36,24 @@ async def gpt_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
     except Exception as e:
         await update.message.reply_text(f"An error occurred: {e}")
 
+# Function to create a simple HTTP server that listens on a port (needed by Render)
+def run_http_server():
+    handler = http.server.SimpleHTTPRequestHandler
+    with socketserver.TCPServer(("", 8080), handler) as httpd:
+        print("Serving on port 8080")
+        httpd.serve_forever()
+
+# Function to run both HTTP server and Telegram bot together
+def run_services():
+    # Start the HTTP server in a separate thread
+    http_thread = threading.Thread(target=run_http_server)
+    http_thread.daemon = True
+    http_thread.start()
+
+    # Start the Telegram bot
+    asyncio.run(main())
+
+# Main function to start the bot
 def main():
     application = Application.builder().token(TELEGRAM_BOT_TOKEN).build()
 
@@ -41,4 +63,4 @@ def main():
     application.run_polling()
 
 if __name__ == "__main__":
-    main()
+    run_services()
