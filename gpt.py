@@ -50,6 +50,7 @@ async def start_telegram_bot():
 
 # Main function to start both Flask and Telegram bot using asyncio
 def run_flask():
+    # Use the environment port or default to 5000
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
 
