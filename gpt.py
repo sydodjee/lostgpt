@@ -13,7 +13,7 @@ async def respond(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
     # If any trigger word is found, respond
     if any(word in message for word in TRIGGER_WORDS):
-        await update.message.reply_text("Hello! How can I assist you today?")
+        await update.message.reply_text("ալօ, ջուլի?, պատմի")
 
 def main():
     # Create application with the bot token
