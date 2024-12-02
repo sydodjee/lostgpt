@@ -5,12 +5,13 @@ import http.server
 import socketserver
 import threading
 import asyncio
+import os
 
-# Replace with your OpenAI API key
-OPENAI_API_KEY = "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"  # Add your OpenAI API key here
+# Fetch OpenAI API key from environment variables
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
-# Replace with your Telegram bot token
-TELEGRAM_BOT_TOKEN = "7649317053:AAEuahOjsqpu2aqQGs5qlJCsKvL35qU-leo"  # Add your Telegram bot token here
+# Fetch Telegram bot token from environment variables
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 
 # Function to handle /gpt command
 async def gpt_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
