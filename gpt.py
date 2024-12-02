@@ -3,10 +3,10 @@ from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes
 
 # Replace with your OpenAI API key
-OPENAI_API_KEY = "your-openai-api-key"  # Add your OpenAI API key here
+OPENAI_API_KEY = "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"  # Add your OpenAI API key here
 
 # Replace with your Telegram bot token
-TELEGRAM_BOT_TOKEN = "your-telegram-bot-token"  # Add your Telegram bot token here
+TELEGRAM_BOT_TOKEN = "7649317053:AAEuahOjsqpu2aqQGs5qlJCsKvL35qU-leo"  # Add your Telegram bot token here
 
 # Function to handle /gpt command
 async def gpt_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
