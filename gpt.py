@@ -48,11 +48,9 @@ async def start_telegram_bot():
     application.add_handler(CommandHandler("gpt", gpt_command))
     await application.run_polling()
 
-# Main function to start both Flask and Telegram bot using asyncio
-def run_flask():
-    # Use the environment port or default to 5000
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+# Function to run Telegram bot in a separate asyncio loop
+def run_telegram_bot():
+    asyncio.run(start_telegram_bot())
 
 # Start Flask and Telegram bot in separate threads
 def main():
@@ -60,8 +58,15 @@ def main():
     flask_thread = Thread(target=run_flask)
     flask_thread.start()
 
-    # Run the Telegram bot with asyncio
-    asyncio.run(start_telegram_bot())
+    # Start Telegram bot in a separate asyncio loop
+    telegram_thread = Thread(target=run_telegram_bot)
+    telegram_thread.start()
+
+# Start Flask server
+def run_flask():
+    # Use the environment port or default to 5000
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
 
 if __name__ == "__main__":
     main()
