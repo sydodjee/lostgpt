@@ -54,7 +54,7 @@ def run_flask():
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
 
-# Updated main entry to use asyncio.run()
+# Start Flask and Telegram bot in separate threads
 def main():
     # Start Flask in a separate thread
     flask_thread = Thread(target=run_flask)
