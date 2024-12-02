@@ -1,1 +1,1 @@
-web: python gpt_bot.py
+web: python gpt.py
