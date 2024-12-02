@@ -1,10 +1,10 @@
 import os
-import asyncio
+import openai
 from flask import Flask
 from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes
-import openai
-from threading import Thread
+import asyncio
+from multiprocessing import Process
 
 # Your OpenAI API key
 OPENAI_API_KEY = "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"
@@ -52,15 +52,19 @@ async def start_telegram_bot():
 def run_telegram_bot():
     asyncio.run(start_telegram_bot())
 
-# Start Flask and Telegram bot in separate threads
+# Start Flask and Telegram bot in separate processes
 def main():
-    # Start Flask in a separate thread
-    flask_thread = Thread(target=run_flask)
-    flask_thread.start()
+    # Start Flask in a separate process
+    flask_process = Process(target=run_flask)
+    flask_process.start()
 
-    # Start Telegram bot in a separate asyncio loop
-    telegram_thread = Thread(target=run_telegram_bot)
-    telegram_thread.start()
+    # Start Telegram bot in a separate process
+    telegram_process = Process(target=run_telegram_bot)
+    telegram_process.start()
+
+    # Wait for both processes to finish (they run indefinitely)
+    flask_process.join()
+    telegram_process.join()
 
 # Start Flask server
 def run_flask():
